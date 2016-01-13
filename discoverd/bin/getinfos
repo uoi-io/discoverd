@@ -1,0 +1,33 @@
+#!/bin/sh
+#
+# License: Apache
+# Get some informations about the asset:
+#   - NIC MAC addresses
+#   - UUID
+#   - Vendor
+#   - Region of PXE server
+#   - Physical or virtual asset
+mac=""
+for eth in $(ls -1 /sys/class/net | grep -v ^lo$); do
+    if [ "$(cat /sys/class/net/${eth}/carrier)" == "1" ]; then
+        mac=$(cat /sys/class/net/${eth}/address)
+    fi
+done
+
+echo "${mac}" > /tmp/mac
+
+uuid=$(cat /sys/class/dmi/id/product_uuid)
+vendor=$(cat /sys/class/dmi/id/sys_vendor)
+region=$(cat /tmp/region)
+
+case "$vendor" in
+    "innotek GmbH"|"VMware, Inc."|"Red Hat")
+        hwType="virtual"
+        ;;
+    *)
+        hwType="physical"
+        ;;
+esac
+
+# Return values
+echo "HW|${mac}|${uuid}|${vendor}|${region}|${hwType}"

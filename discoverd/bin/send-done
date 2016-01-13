@@ -1,0 +1,8 @@
+#!/bin/sh
+#
+# License: Apache
+# Send DISCOVER-DONE message to announce the end of the intropspection
+mac=$(cat /tmp/mac)
+
+# Return the value
+echo "DISCOVER-DONE|${mac}"

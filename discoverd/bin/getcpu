@@ -1,0 +1,18 @@
+#!/bin/sh
+#
+# License: Apache
+# Get some informations about CPU:
+#   - Total core
+#   - Total physical
+#   - CPU model
+#   - CPU frequency
+core=$(grep [p]rocessor -c /proc/cpuinfo)
+physical=$(grep "[p]hysical id" /proc/cpuinfo | sort -u | wc -l)
+model=$(awk -F":" '($1 ~ /model name/) && (!x[$1]++)  { print substr($2, 2, length($2)) }' /proc/cpuinfo)
+freq=$(awk -F":" '($1 ~ /cpu MHz/) && (!x[$1]++)  { print substr( $2, 2, length($2) ) }' /proc/cpuinfo | sed 's/ *\..*//')
+
+# Get the MAC to send
+mac=$(cat /tmp/mac)
+
+# Return to values
+echo "CPU|${core}|${physical}|${model}|${freq}|${mac}"
