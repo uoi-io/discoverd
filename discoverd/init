@@ -36,11 +36,11 @@ for param in $(awk '{ print $0 }' /proc/cmdline); do
     fi
 done
 
-/bin/getinfos | /bin/ncat --ssl -w10 $ncServ $ncPort
-/bin/getcpu | /bin/ncat --ssl -w10 $ncServ $ncPort
+/bin/getinfos | ncat --ssl -w10 $ncServ $ncPort
+/bin/getcpu | ncat --ssl -w10 $ncServ $ncPort
 sleep 2
-/bin/getnet | /bin/ncat --ssl -w10 $ncServ $ncPort
-/bin/send-done | /bin/ncat --ssl -w10 $ncServ $ncPort
+/bin/getnet | ncat --ssl -w10 $ncServ $ncPort
+/bin/send-done | ncat --ssl -w10 $ncServ $ncPort
 
 case $next in
     poweroff)
