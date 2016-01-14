@@ -1,0 +1,55 @@
+#!/bin/sh
+#
+# License: Apache
+# Author: Gaetan Trellu - goldyfruit <gaetan.trellu@incloudus.com
+# Init script used to boot discoverd image
+
+/bin/mount -t devtmpfs none /dev
+/bin/mount -t proc proc /proc
+/bin/mount -t sysfs sys /sys
+
+echo /sbin/mdev > /proc/sys/kernel/hotplug
+/sbin/mdev -s
+for dev in $(find /sys/devices -iname modalias -type f -exec cat {} + | sort -u); do
+    /sbin/modprobe $dev 2>/dev/null
+done
+
+clear
+
+udhcpc -t 5 -q
+
+ncServ=""
+ncPort=""
+
+for param in $(awk '{ print $0 }' /proc/cmdline); do 
+    option=$(echo $param | awk -F"=" '{ print $1 }')
+    value=$(echo $param | awk -F"=" '{ print $2 }')
+
+    if [ "$option" == "ncserv" ]; then
+        ncServ=$value
+    elif [ "$option" == "ncport" ]; then
+        ncPort=$value
+    elif [ "$option" == "region" ]; then
+        echo "$region" > /tmp/region
+    elif [ "$option" == "next" ]; then
+        next=$value
+    fi
+done
+
+/bin/getinfos | /bin/ncat --ssl -w10 $ncServ $ncPort
+/bin/getcpu | /bin/ncat --ssl -w10 $ncServ $ncPort
+sleep 2
+/bin/getnet | /bin/ncat --ssl -w10 $ncServ $ncPort
+/bin/send-done | /bin/ncat --ssl -w10 $ncServ $ncPort
+
+case $next in
+    poweroff)
+        /sbin/poweroff -f
+        ;;
+    reboot)
+        /sbin/reboot -f
+        ;;
+    shell)
+        exec /bin/ash --login 2>/dev/null
+        ;;
+esac
