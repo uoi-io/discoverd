@@ -42,6 +42,8 @@ sleep 2
 /bin/getnet | ncat --ssl -w10 $ncServ $ncPort
 /bin/send-done | ncat --ssl -w10 $ncServ $ncPort
 
+exec /sbin/init
+
 case $next in
     poweroff)
         /sbin/poweroff -f
