@@ -1,26 +1,32 @@
 #!/bin/sh
 #
 # License: Apache
-# Author: Gaetan Trellu - goldyfruit <gaetan.trellu@incloudus.com
+# Author: Gaetan Trellu - goldyfruit <gaetan.trellu@incloudus.com>
 # Init script used to boot discoverd image
 
+# Mount pseudo filesystems
 /bin/mount -t devtmpfs none /dev
 /bin/mount -t proc proc /proc
 /bin/mount -t sysfs sys /sys
 
+# Run mdev (udev replacement)
 echo /sbin/mdev > /proc/sys/kernel/hotplug
 /sbin/mdev -s
+
+# Load kernel modules
 for dev in $(find /sys/devices -iname modalias -type f -exec cat {} + | sort -u); do
     /sbin/modprobe $dev 2>/dev/null
 done
 
 clear
 
+# Get DHCP address
 udhcpc -t 5 -q
 
 ncServ=""
 ncPort=""
 
+# Get params passes to the kernel via the PXE profile
 for param in $(awk '{ print $0 }' /proc/cmdline); do 
     option=$(echo $param | awk -F"=" '{ print $1 }')
     value=$(echo $param | awk -F"=" '{ print $2 }')
@@ -36,14 +42,17 @@ for param in $(awk '{ print $0 }' /proc/cmdline); do
     fi
 done
 
+# Execute commands then send the result via ncat
 /bin/getinfos | ncat --ssl -w10 $ncServ $ncPort
 /bin/getcpu | ncat --ssl -w10 $ncServ $ncPort
 sleep 2
 /bin/getnet | ncat --ssl -w10 $ncServ $ncPort
 /bin/send-done | ncat --ssl -w10 $ncServ $ncPort
 
+# Fix to read /etc/inittab
 exec /sbin/init
 
+# What's next when discover is done ?
 case $next in
     poweroff)
         /sbin/poweroff -f
