@@ -3,6 +3,5 @@ echo "#############################"
 echo "|    UOI DISCOVERD SHELL    |"
 echo "#############################"
 echo
-ipAddr=$(ifconfig | awk '/inet addr/ { print substr($2,6) }')
-export PS1="root@$ipAddr:\w# "
+export PS1="root@uoi-shell:\w# "
 alias reboot="reboot -f"
