@@ -23,7 +23,9 @@ done
 clear
 
 # Get DHCP address
-udhcpc -t 5 -q
+for eth in $(ls -1 /sys/class/net | grep -v ^lo$); do
+    udhcpc -t 5 -q -i $eth
+done
 
 ncServ=""
 ncPort=""
