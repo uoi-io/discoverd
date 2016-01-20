@@ -1,1 +1,2 @@
 console::respawn:-/bin/sh
+::ctrlaltdel:/sbin/reboot
