@@ -18,10 +18,13 @@ for eth in $(ls -1 /sys/class/net | grep -v ^lo$); do
     fi
     mac=$(cat ${path}/address)
     state=$(cat ${path}/operstate)
-    speed=$(cat ${path}/speed)
-    if [ ! $speed ]; then
+
+    if $(ls -l ${path}/device/driver/module | grep -q virtio_net); then
+        speed="1000"
+    elif [ ! $speed ]; then
         speed=0
     fi
+
     vendorId=$(cat ${path}/device/vendor | cut -c 3-)
     vendor=$(grep $vendorId /usr/share/hwdata/pci.ids | grep Corporation | awk -F"  " '{ print $2 }')
 
