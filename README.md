@@ -31,3 +31,7 @@ Then rebuild the image with the changes made.
 ```
 $ find . | cpio -H newc -o | gzip -v -c > ../discoverd.img.gz
 ```
+The compression is done by ``gzip`` but it can be done by another compression tools:
+  - ``bzip2``
+  - ``lzma``
+  - ``xz``
