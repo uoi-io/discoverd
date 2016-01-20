@@ -13,6 +13,9 @@ macPxe=$(cat /tmp/mac)
 for eth in $(ls -1 /sys/class/net | grep -v ^lo$); do
     path=/sys/class/net/${eth}
     device=$(udevadm test-builtin net_id $path | awk -F"=" '($1 ~ /ID_NET_NAME_PATH/) { print $2 }')
+    if [ -z $device ]; then
+        device=$eth
+    fi
     mac=$(cat ${path}/address)
     state=$(cat ${path}/operstate)
     speed=$(cat ${path}/speed)
