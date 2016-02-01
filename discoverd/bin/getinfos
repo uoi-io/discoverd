@@ -24,6 +24,9 @@ case "$vendor" in
     "innotek GmbH"|"VMware, Inc."|"Red Hat")
         hwType="virtual"
         ;;
+    "OpenStack Compute")
+        hwType="openstack"
+        ;;
     *)
         hwType="physical"
         ;;
