@@ -7,13 +7,12 @@
 #   - Vendor
 #   - Region of PXE server
 #   - Physical or virtual asset
-mac=""
-for eth in $(ls -1 /sys/class/net | grep -v ^lo$); do
-    if [ "$(cat /sys/class/net/${eth}/carrier)" == "1" ]; then
-        mac=$(cat /sys/class/net/${eth}/address)
-    fi
-done
 
+# /tmp/pxeserver contains the IP address of the PXE server
+# This address is parsed to get only 000.000.000 and then check
+# on which interface is bind this network to get the MAC address
+getIpFromHostname=$(awk -F"." '{ print $1"."$2"."$3 }' /tmp/pxeserver)
+mac=$(ip a | grep -B1 $getIpFromHostname | awk '/link\/ether/ { print $2 }')
 echo "${mac}" > /tmp/mac
 
 uuid=$(cat /sys/class/dmi/id/product_uuid)
