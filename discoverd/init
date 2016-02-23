@@ -43,6 +43,8 @@ for param in $(awk '{ print $0 }' /proc/cmdline); do
         echo "$region" > /tmp/region
     elif [ "$option" == "next" ]; then
         next=$value
+    elif [ "$option" == "pxeserver" ]; then
+        echo $value > /tmp/pxeserver
     fi
 done
 
