@@ -44,7 +44,4 @@ case "$1" in
 		;;
 esac
 
-echo $hostname > /etc/hostname
-echo $serverid > /tmp/serverid
-
 exit 0
