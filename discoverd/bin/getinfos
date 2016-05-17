@@ -18,13 +18,15 @@ echo "${mac}" > /tmp/mac
 uuid=$(cat /sys/class/dmi/id/product_uuid)
 vendor=$(cat /sys/class/dmi/id/sys_vendor)
 region=$(cat /tmp/region)
+product=$(cat /sys/class/dmi/id/product_name)
 
 case "$vendor" in
     "innotek GmbH"|"VMware, Inc."|"Red Hat")
-        hwType="virtual"
-        ;;
-    "OpenStack Compute")
-        hwType="openstack"
+        if [ "$product" == "OpenStack Compute" ]; then
+            hwType="openstack"
+        else
+            hwType="virtual"
+        fi
         ;;
     *)
         hwType="physical"
