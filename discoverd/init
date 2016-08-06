@@ -49,11 +49,11 @@ for param in $(awk '{ print $0 }' /proc/cmdline); do
 done
 
 # Execute commands then send the result via ncat
-/bin/getinfos | ncat --ssl -w10 $ncServ $ncPort
-/bin/getcpu | ncat --ssl -w10 $ncServ $ncPort
+/bin/getinfos | ncat -w10 $ncServ $ncPort
+/bin/getcpu | ncat -w10 $ncServ $ncPort
 sleep 2
-/bin/getnet | ncat --ssl -w10 $ncServ $ncPort
-/bin/send-done | ncat --ssl -w10 $ncServ $ncPort
+/bin/getnet | ncat -w10 $ncServ $ncPort
+/bin/send-done | ncat -w10 $ncServ $ncPort
 
 # Fix to read /etc/inittab
 exec /sbin/init
