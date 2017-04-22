@@ -8,6 +8,10 @@ Discoverd image is only useful to collect informations of an asset and learn how
 
 ### Build the image
 
+Before bulding the image, few packages are required:
+```$ sudo apt-get install curl debootstrap
+```
+
 Build the discoverd image is easy, just run the ``mkdiscoverd.sh`` script. Before running this script be sure that ``debootstrap`` *(this packages exists on Red Hat distributions)* and ``sudo`` packages are installed.
 ```sh
 $ git clone git@github.com:uoi-io/discoverd.git
