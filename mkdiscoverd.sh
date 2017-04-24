@@ -6,7 +6,7 @@
 # Create a ramdisk based on Debian distribution and Busybox
 
 # Variables
-pkgs="nmap,linux-image-amd64,tcpdump,libpci3,dmidecode,ipmitool,hwdata,udev"
+pkgs="nmap,linux-image-amd64,tcpdump,libpci3,dmidecode,ipmitool,hwdata,udev,httpie"
 cmds="ncat tcpdump dmidecode biosdecode biosdevname udevadm ipmitool"
 biosdevnameUrl="http://mirrors.kernel.org/ubuntu/pool/main/b/biosdevname"
 biosdevnamePkg="biosdevname_0.4.1-0ubuntu8_amd64.deb"
