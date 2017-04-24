@@ -13,7 +13,7 @@ biosdevnamePkg="biosdevname_0.4.1-0ubuntu8_amd64.deb"
 busyboxVersion="1.26.2-defconfig-multiarch"
 busyboxUrl="https://busybox.net/downloads/binaries/${busyboxVersion}"
 debianFtpAddr="http://ftp.ca.debian.org/debian"
-debianVersion="jessie"
+debianVersion="stretch"
 debianArch="amd64"
 
 # Prepare
