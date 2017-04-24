@@ -10,7 +10,8 @@ pkgs="nmap,linux-image-amd64,tcpdump,libpci3,dmidecode,ipmitool,hwdata,udev,http
 cmds="ncat tcpdump dmidecode biosdecode biosdevname udevadm ipmitool"
 biosdevnameUrl="http://mirrors.kernel.org/ubuntu/pool/main/b/biosdevname"
 biosdevnamePkg="biosdevname_0.4.1-0ubuntu8_amd64.deb"
-busyboxUrl="https://www.busybox.net/downloads/binaries/busybox-x86_64"
+busyboxVersion="1.26.2-defconfig-multiarch"
+busyboxUrl="https://busybox.net/downloads/binaries/${busyboxVersion}"
 debianFtpAddr="http://ftp.ca.debian.org/debian"
 debianVersion="jessie"
 debianArch="amd64"
@@ -21,7 +22,7 @@ cd discoverd
 mkdir -pv dev proc sys tmp bin etc lib usr/share bin var sbin root lib64
 
 # Get Busybox
-curl -o bin/busybox $busyboxUrl
+curl -o bin/busybox ${busyboxUrl}/busybox-x86_64
 chmod +x bin/busybox
 
 # Bootstrap a Debian distribution with additional packages
