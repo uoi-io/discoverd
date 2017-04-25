@@ -12,8 +12,12 @@
 /bin/mount -t devpts devpts /dev/pts
 
 # Run mdev (udev replacement)
-echo /sbin/mdev > /proc/sys/kernel/hotplug
-/sbin/mdev -s
+if [ -w /proc/sys/kernel/hotplug ]
+then
+    echo /sbin/mdev > /proc/sys/kernel/hotplug;
+else
+    /sbin/mdev -s
+fi
 
 # Load kernel modules
 for dev in $(find /sys/devices -iname modalias -type f -exec cat {} + | sort -u); do
