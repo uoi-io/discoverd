@@ -25,6 +25,9 @@ for dev in $(find /sys/devices -iname modalias -type f -exec cat {} + | sort -u)
     /sbin/modprobe $dev 2>/dev/null
 done
 
+# Load virtio_net kernel module if exists
+/sbin/modprobe virtio_net 2>/dev/null
+
 clear
 
 # Get DHCP address
