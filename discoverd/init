@@ -15,6 +15,7 @@
 if [ -w /proc/sys/kernel/hotplug ]
 then
     echo /sbin/mdev > /proc/sys/kernel/hotplug;
+    /sbin/mdev -s
 else
     /sbin/mdev -s
 fi
