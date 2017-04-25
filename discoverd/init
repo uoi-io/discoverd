@@ -8,7 +8,7 @@
 /bin/mount -t devtmpfs none /dev
 /bin/mount -t proc proc /proc
 /bin/mount -t sysfs sys /sys
-mkdir /dev/pts
+/bin/mkdir /dev/pts
 /bin/mount -t devpts devpts /dev/pts
 
 # Run mdev (udev replacement)
