@@ -21,7 +21,7 @@ region=$(cat /tmp/region)
 product=$(cat /sys/class/dmi/id/product_name)
 
 case "$vendor" in
-    "innotek GmbH"|"VMware, Inc."|"Red Hat")
+    "innotek GmbH"|"VMware, Inc."|"Red Hat"|"QEMU")
         if [ "$product" == "OpenStack Compute" ]; then
             hwType="openstack"
         else
